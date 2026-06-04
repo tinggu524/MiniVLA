@@ -2,13 +2,31 @@
   <h1>MiniVLA</h1>
   <p>Build a tiny VLA from scratch, then upgrade it step by step toward modern robot policy architectures.</p>
   <p>
+    <img alt="Python" src="https://img.shields.io/badge/Python-3.10-3776AB?style=for-the-badge&logo=python&logoColor=white">
+    <img alt="PyTorch" src="https://img.shields.io/badge/PyTorch-MiniVLA-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white">
+    <img alt="Toy Task" src="https://img.shields.io/badge/2D_Tabletop-Toy_Task-19A974?style=for-the-badge">
+    <img alt="License" src="https://img.shields.io/badge/License-MIT-black?style=for-the-badge">
+  </p>
+  <p>
     <a href="./README.md"><b>中文</b></a>
   </p>
 </div>
 
-## Goal
+## 📚 Table of Contents
 
-MiniVLA is a learning-roadmap project for people who want to understand Vision-Language-Action models from the ground up. It does not require a real robot arm. Instead, it uses a small 2D tabletop toy task to build the full loop:
+- [🎯 Goal](#goal)
+- [🧩 Model Contents](#model)
+- [🗺️ Learning Roadmap](#roadmap)
+- [📊 Results](#results)
+- [📁 Project Structure](#structure)
+- [🚀 Usage](#usage)
+- [🏷️ Releases](#releases)
+- [📄 License](#license)
+
+<a id="goal"></a>
+## 🎯 Goal
+
+MiniVLA is a learning-roadmap project for people who want to understand Vision-Language-Action models from the ground up. It uses a small 2D tabletop toy task to build the full loop:
 
 ```text
 generate expert demos -> train behavior cloning -> rollout evaluation -> failure analysis -> component upgrades
@@ -16,7 +34,8 @@ generate expert demos -> train behavior cloning -> rollout evaluation -> failure
 
 The goal is not to reproduce OpenVLA, ACT, or π0 immediately. The goal is to first build the smallest working VLA skeleton, then upgrade one component at a time and measure whether the change actually helps.
 
-## Current Version: MiniVLA v0
+<a id="model"></a>
+## 🧩 Model Contents
 
 v0 is the minimal runnable version:
 
@@ -53,7 +72,8 @@ open the gripper
 check success
 ```
 
-## Learning Roadmap
+<a id="roadmap"></a>
+## 🗺️ Learning Roadmap
 
 The project will upgrade components step by step. Each version should be trained, evaluated, and compared.
 
@@ -81,7 +101,8 @@ parameter count
 main failure modes
 ```
 
-## Current Result
+<a id="results"></a>
+## 📊 Results
 
 Latest v0 evaluation:
 
@@ -98,7 +119,8 @@ outputs/v0/results_v0.json
 
 The evaluation script saves failure GIFs and a few success examples, but generated GIFs are ignored by Git.
 
-## Project Structure
+<a id="structure"></a>
+## 📁 Project Structure
 
 ```text
 MiniVLA/
@@ -111,7 +133,8 @@ MiniVLA/
   outputs/v0/           # metrics tracked, GIFs ignored by Git
 ```
 
-## Usage
+<a id="usage"></a>
+## 🚀 Usage
 
 Create the environment:
 
@@ -147,31 +170,20 @@ outputs/v0/rollouts/failures/
 outputs/v0/rollouts/success_examples/
 ```
 
-## Why No Real Robot Arm
+<a id="releases"></a>
+## 🏷️ Releases
 
-The first step in learning VLA is not buying a robot arm. It is understanding the data loop and policy learning loop. This toy task keeps the important VLA ingredients:
-
-```text
-visual grounding
-language grounding
-state input
-continuous action prediction
-temporal rollout
-failure analysis
-```
-
-At the same time, it avoids camera calibration, hardware safety, ROS, drivers, and contact physics.
-
-## Advice for Learners
-
-Do not rush into large models. First make v0 run end to end, then ask:
+When a stable milestone is complete, create a GitHub Release, for example:
 
 ```text
-Why can loss decrease while rollout still fails?
-Why does gripper_action jitter?
-Why does single-step action prediction accumulate errors?
-Why does ACT predict action chunks?
-Why do modern VLAs often use pretrained vision-language backbones?
+v0.1.0  MiniVLA baseline
+v0.2.0  action chunking
+v0.3.0  transformer fusion
 ```
 
-Once you can answer these questions with your own experiments, ACT, OpenVLA, π0, and SmolVLA will become much easier to understand.
+Releases are useful for stable milestones, experiment summaries, key metrics, and downloadable artifacts. Regular development should still be tracked with commits. When a version is polished enough to show, create a tag and publish a release.
+
+<a id="license"></a>
+## 📄 License
+
+This project is released under the MIT License. See [LICENSE](./LICENSE) for details.

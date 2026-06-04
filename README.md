@@ -2,21 +2,40 @@
   <h1>MiniVLA</h1>
   <p>从零开始搭建一个极小 VLA，并逐步升级到现代机器人策略架构。</p>
   <p>
+    <img alt="Python" src="https://img.shields.io/badge/Python-3.10-3776AB?style=for-the-badge&logo=python&logoColor=white">
+    <img alt="PyTorch" src="https://img.shields.io/badge/PyTorch-MiniVLA-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white">
+    <img alt="Toy Task" src="https://img.shields.io/badge/2D_Tabletop-Toy_Task-19A974?style=for-the-badge">
+    <img alt="License" src="https://img.shields.io/badge/License-MIT-black?style=for-the-badge">
+  </p>
+  <p>
     <a href="./README.en.md"><b>English</b></a>
   </p>
 </div>
 
-## 项目目标
+## 📚 目录
 
-MiniVLA 是一个面向 VLA 初学者的学习路线项目。它不依赖真实机械臂，而是用一个 2D tabletop toy task 搭建完整闭环：
+- [🎯 项目目标](#goal)
+- [🧩 模型内容](#model)
+- [🗺️ 学习路线](#roadmap)
+- [📊 实验结果](#results)
+- [📁 项目结构](#structure)
+- [🚀 运行方式](#usage)
+- [🏷️ 版本发布](#releases)
+- [📄 License](#license)
+
+<a id="goal"></a>
+## 🎯 项目目标
+
+MiniVLA 是一个面向 VLA 初学者的学习路线项目。它用一个 2D tabletop toy task 搭建完整闭环：
 
 ```text
 生成专家数据 -> 训练行为克隆模型 -> rollout 评估 -> 分析失败案例 -> 升级组件
 ```
 
-这个项目的核心不是追求一开始就复现 OpenVLA、ACT 或 π0，而是先把 VLA 最小骨架跑通，再逐个升级组件，理解每个模块为什么存在、解决什么问题、是否真的改善效果。
+这个项目的核心不是一开始就复现 OpenVLA、ACT 或 π0，而是先把 VLA 最小骨架跑通，再逐个升级组件，理解每个模块为什么存在、解决什么问题、是否真的改善效果。
 
-## 当前版本：MiniVLA v0
+<a id="model"></a>
+## 🧩 模型内容
 
 v0 是一个最小可运行版本：
 
@@ -53,7 +72,8 @@ action: [dx, dy, gripper_action]
 判断是否成功
 ```
 
-## 学习路线
+<a id="roadmap"></a>
+## 🗺️ 学习路线
 
 这个仓库会按组件逐步升级，每一步都训练、评估并记录结果。
 
@@ -81,7 +101,8 @@ mean final distance
 主要失败原因
 ```
 
-## 当前实验结果
+<a id="results"></a>
+## 📊 实验结果
 
 最近一次 v0 评估：
 
@@ -98,7 +119,8 @@ outputs/v0/results_v0.json
 
 评估脚本会保存失败案例 GIF 和少量成功样例 GIF，但这些生成文件默认不会进入 Git。
 
-## 项目结构
+<a id="structure"></a>
+## 📁 项目结构
 
 ```text
 MiniVLA/
@@ -111,7 +133,8 @@ MiniVLA/
   outputs/v0/           # metrics tracked, GIFs ignored by Git
 ```
 
-## 运行方式
+<a id="usage"></a>
+## 🚀 运行方式
 
 创建环境：
 
@@ -147,31 +170,20 @@ outputs/v0/rollouts/failures/
 outputs/v0/rollouts/success_examples/
 ```
 
-## 为什么不用真实机械臂
+<a id="releases"></a>
+## 🏷️ 版本发布
 
-学习 VLA 架构的第一步不是买机械臂，而是理解数据闭环和策略学习闭环。这个 toy task 保留了 VLA 的关键结构：
-
-```text
-视觉 grounding
-语言 grounding
-状态输入
-连续动作预测
-时序 rollout
-失败案例分析
-```
-
-同时避免了真实机器人中的相机标定、硬件安全、ROS、驱动和接触物理问题。
-
-## 面向学习者的建议
-
-不要急着堆大模型。先让 v0 能稳定跑通，再问自己：
+后续每完成一个稳定版本，可以在 GitHub 的 Releases 里发布一次版本记录，例如：
 
 ```text
-为什么 loss 下降但 rollout 仍会失败？
-为什么 gripper_action 会抖动？
-为什么单步动作预测容易误差累积？
-为什么 ACT 要预测 action chunk？
-为什么现代 VLA 常用预训练视觉语言 backbone？
+v0.1.0  MiniVLA baseline
+v0.2.0  action chunking
+v0.3.0  transformer fusion
 ```
 
-当这些问题能用自己的实验回答时，再升级到 ACT、OpenVLA、π0 或 SmolVLA，会清楚很多。
+Release 适合放稳定节点、实验摘要、重要指标和可下载附件。普通开发过程仍然用 commit 记录；当某个版本可以展示给别人看时，再打 tag 并创建 release。
+
+<a id="license"></a>
+## 📄 License
+
+This project is released under the MIT License. See [LICENSE](./LICENSE) for details.
