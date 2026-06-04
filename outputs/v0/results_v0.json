@@ -1,0 +1,35 @@
+{
+  "model": "MiniVLA-v0",
+  "num_trials": 100,
+  "success_rate": 0.94,
+  "mean_final_distance": 3.0663154375288597,
+  "failure_trials": [
+    {
+      "trial": 7,
+      "final_distance": 31.626367655975997
+    },
+    {
+      "trial": 9,
+      "final_distance": 9.31258584198741
+    },
+    {
+      "trial": 26,
+      "final_distance": 22.040680189644974
+    },
+    {
+      "trial": 31,
+      "final_distance": 23.315252204772413
+    },
+    {
+      "trial": 53,
+      "final_distance": 36.900132487710046
+    },
+    {
+      "trial": 62,
+      "final_distance": 7.962232770450295
+    }
+  ],
+  "failure_gif_dir": "outputs/v0/rollouts/failures",
+  "success_example_gif_dir": "outputs/v0/rollouts/success_examples",
+  "max_success_gifs": 5
+}

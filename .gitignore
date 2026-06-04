@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.DS_Store
+
+# Local environments
+.venv/
+
+# Generated datasets and model weights
+data/*.npz
+checkpoints/*.pt
+
+# Generated visualizations
+outputs/**/*.gif

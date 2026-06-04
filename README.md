@@ -1,0 +1,177 @@
+<div align="center">
+  <h1>MiniVLA</h1>
+  <p>从零开始搭建一个极小 VLA，并逐步升级到现代机器人策略架构。</p>
+  <p>
+    <a href="./README.en.md"><b>English</b></a>
+  </p>
+</div>
+
+## 项目目标
+
+MiniVLA 是一个面向 VLA 初学者的学习路线项目。它不依赖真实机械臂，而是用一个 2D tabletop toy task 搭建完整闭环：
+
+```text
+生成专家数据 -> 训练行为克隆模型 -> rollout 评估 -> 分析失败案例 -> 升级组件
+```
+
+这个项目的核心不是追求一开始就复现 OpenVLA、ACT 或 π0，而是先把 VLA 最小骨架跑通，再逐个升级组件，理解每个模块为什么存在、解决什么问题、是否真的改善效果。
+
+## 当前版本：MiniVLA v0
+
+v0 是一个最小可运行版本：
+
+```text
+image        -> 3-layer CNN
+instruction  -> small vocab + embedding + mean pooling
+state        -> 2-layer MLP
+fusion       -> concat + MLP
+action head  -> 2-layer MLP
+loss         -> MSE
+```
+
+输入：
+
+```text
+64x64 RGB image
+language instruction: "move red block to green target"
+robot state: [gripper_x, gripper_y, is_holding]
+```
+
+输出：
+
+```text
+action: [dx, dy, gripper_action]
+```
+
+任务是一个简化的 2D 桌面抓取：
+
+```text
+蓝色夹爪移动到红色方块
+闭合夹爪
+把红色方块移动到绿色目标区
+打开夹爪
+判断是否成功
+```
+
+## 学习路线
+
+这个仓库会按组件逐步升级，每一步都训练、评估并记录结果。
+
+| 版本 | 升级点 | 学习重点 |
+|---|---|---|
+| v0 | 3-layer CNN + small vocab + MLP fusion + MSE | 最小 VLA 闭环 |
+| v1 | action chunking | 理解 ACT 为什么不只预测单步动作 |
+| v2 | transformer fusion | 从 concat 融合升级到 token-level 融合 |
+| v3 | transformer decoder action head | 用 action queries 生成未来动作序列 |
+| v4 | ResNet18 vision encoder | 观察视觉 backbone 升级是否提高泛化 |
+| v5 | CLIP/SigLIP-style encoder | 接入预训练视觉语言表征 |
+| v6 | 多颜色、多物体、多指令 | 让语言 grounding 真正变重要 |
+| v7 | diffusion / flow action head | 对齐现代 VLA 的连续动作生成路线 |
+| v8 | 对比 ACT、OpenVLA、π0、SmolVLA | 把 toy 经验映射到真实架构 |
+
+每个版本都应该记录：
+
+```text
+train loss
+success rate
+mean final distance
+失败 GIF
+成功样例 GIF
+参数量
+主要失败原因
+```
+
+## 当前实验结果
+
+最近一次 v0 评估：
+
+```text
+success rate: 0.94
+mean final distance: 3.07
+```
+
+结果保存在：
+
+```text
+outputs/v0/results_v0.json
+```
+
+评估脚本会保存失败案例 GIF 和少量成功样例 GIF，但这些生成文件默认不会进入 Git。
+
+## 项目结构
+
+```text
+MiniVLA/
+  minivla_data.py       # toy environment, expert policy, dataset
+  minivla_model.py      # MiniVLA model
+  train_v0.py           # train v0 with MSE behavior cloning
+  eval_v0.py            # rollout evaluation and failure analysis
+  data/                 # generated .npz demos, ignored by Git
+  checkpoints/          # generated model weights, ignored by Git
+  outputs/v0/           # metrics tracked, GIFs ignored by Git
+```
+
+## 运行方式
+
+创建环境：
+
+```bash
+conda create -n minivla python=3.10
+conda activate minivla
+python -m pip install numpy imageio torch torchvision
+```
+
+生成数据：
+
+```bash
+python minivla_data.py
+```
+
+训练 v0：
+
+```bash
+python train_v0.py
+```
+
+评估 v0：
+
+```bash
+python eval_v0.py
+```
+
+评估后会生成：
+
+```text
+outputs/v0/results_v0.json
+outputs/v0/rollouts/failures/
+outputs/v0/rollouts/success_examples/
+```
+
+## 为什么不用真实机械臂
+
+学习 VLA 架构的第一步不是买机械臂，而是理解数据闭环和策略学习闭环。这个 toy task 保留了 VLA 的关键结构：
+
+```text
+视觉 grounding
+语言 grounding
+状态输入
+连续动作预测
+时序 rollout
+失败案例分析
+```
+
+同时避免了真实机器人中的相机标定、硬件安全、ROS、驱动和接触物理问题。
+
+## 面向学习者的建议
+
+不要急着堆大模型。先让 v0 能稳定跑通，再问自己：
+
+```text
+为什么 loss 下降但 rollout 仍会失败？
+为什么 gripper_action 会抖动？
+为什么单步动作预测容易误差累积？
+为什么 ACT 要预测 action chunk？
+为什么现代 VLA 常用预训练视觉语言 backbone？
+```
+
+当这些问题能用自己的实验回答时，再升级到 ACT、OpenVLA、π0 或 SmolVLA，会清楚很多。
