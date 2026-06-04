@@ -1,16 +1,18 @@
 <div align="center">
   <h1>MiniVLA</h1>
   <p>从零开始搭建一个极小 VLA，并逐步升级到现代机器人策略架构。</p>
-  <p>
-    <img alt="Python" src="https://img.shields.io/badge/Python-3.10-3776AB?style=for-the-badge&logo=python&logoColor=white">
-    <img alt="PyTorch" src="https://img.shields.io/badge/PyTorch-MiniVLA-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white">
-    <img alt="Toy Task" src="https://img.shields.io/badge/2D_Tabletop-Toy_Task-19A974?style=for-the-badge">
-    <img alt="License" src="https://img.shields.io/badge/License-MIT-black?style=for-the-badge">
-  </p>
-  <p>
-    <a href="./README.en.md"><b>English</b></a>
-  </p>
 </div>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/python-3.10-blue" alt="Python">
+  <img src="https://img.shields.io/badge/pytorch-miniVLA-ee4c2c" alt="PyTorch">
+  <img src="https://img.shields.io/badge/task-2D%20tabletop-19a974" alt="Toy Task">
+  <img src="https://img.shields.io/badge/license-MIT-black" alt="License">
+</p>
+
+<p align="center">
+  <b>中文</b> ｜ <a href="./README.en.md">English</a>
+</p>
 
 ## 📚 目录
 
@@ -20,7 +22,6 @@
 - [📊 实验结果](#results)
 - [📁 项目结构](#structure)
 - [🚀 运行方式](#usage)
-- [🏷️ 版本发布](#releases)
 - [📄 License](#license)
 
 <a id="goal"></a>
@@ -169,19 +170,6 @@ outputs/v0/results_v0.json
 outputs/v0/rollouts/failures/
 outputs/v0/rollouts/success_examples/
 ```
-
-<a id="releases"></a>
-## 🏷️ 版本发布
-
-后续每完成一个稳定版本，可以在 GitHub 的 Releases 里发布一次版本记录，例如：
-
-```text
-v0.1.0  MiniVLA baseline
-v0.2.0  action chunking
-v0.3.0  transformer fusion
-```
-
-Release 适合放稳定节点、实验摘要、重要指标和可下载附件。普通开发过程仍然用 commit 记录；当某个版本可以展示给别人看时，再打 tag 并创建 release。
 
 <a id="license"></a>
 ## 📄 License
